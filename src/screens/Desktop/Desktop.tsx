@@ -4,8 +4,11 @@ import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { motion } from "framer-motion";
+import Produtos from "./Produtos";
+import ProdutosCatalogo from "./ProdutosCatalogo";
 
 export const Home = (): JSX.Element => {
+  const [pagina, setPagina] = React.useState<"home" | "produtos-catalogo" | "produtos-detalhe">("home");
   const navItems = [
     { label: "Empresa", href: "#empresa" },
     { label: "Produto", href: "#produto" },
@@ -17,6 +20,13 @@ export const Home = (): JSX.Element => {
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6 }
   };
+
+  if (pagina === "produtos-catalogo") {
+    return <ProdutosCatalogo onEmpresa={() => setPagina("home")} />;
+  }
+  if (pagina === "produtos-detalhe") {
+    return <Produtos setPagina={setPagina} />;
+  }
 
   return (
     <div className="bg-white flex flex-row justify-center w-full">
@@ -178,18 +188,24 @@ export const Home = (): JSX.Element => {
           />
 
           <nav className="absolute top-[305px] left-[765px] flex space-x-[95px]">
-            {navItems.map((item, index) => (
-              <motion.a
-                key={index}
-                href={item.href}
-                className="[font-family:'Julius_Sans_One',Helvetica] font-normal text-black text-[28px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#ed3237] transition-colors"
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                {item.label}
-              </motion.a>
-            ))}
+            <span
+              className="[font-family:'Julius_Sans_One',Helvetica] font-normal text-black text-[28px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#ed3237] transition-colors cursor-pointer"
+              onClick={() => setPagina("home")}
+            >
+              Empresa
+            </span>
+            <span
+              className="[font-family:'Julius_Sans_One',Helvetica] font-normal text-black text-[28px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#ed3237] transition-colors cursor-pointer"
+              onClick={() => setPagina("produtos-catalogo")}
+            >
+              Produto
+            </span>
+            <span
+              className="[font-family:'Julius_Sans_One',Helvetica] font-normal text-black text-[28px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#ed3237] transition-colors cursor-pointer"
+              onClick={() => setPagina("home")}
+            >
+              Localização
+            </span>
           </nav>
 
           <motion.div 
@@ -306,35 +322,46 @@ export const Home = (): JSX.Element => {
             </p>
           </motion.section>
 
-          <div className="absolute top-[3661px] left-0 w-full flex justify-center gap-[370px]">
-            <motion.div
-              initial={{ x: -100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-            >
-              <Card className="border-none shadow-none">
-                <CardContent className="p-0">
-                  <h3 className="w-[245px] [font-family:'Julius_Sans_One',Helvetica] font-normal text-black text-[40px] text-center tracking-[0] leading-[normal] whitespace-nowrap">
-                    pessoa física
-                  </h3>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ x: 100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-            >
-              <Card className="border-none shadow-none">
-                <CardContent className="p-0">
-                  <h3 className="w-[299px] [font-family:'Julius_Sans_One',Helvetica] font-normal text-black text-[40px] text-center tracking-[0] leading-[normal] whitespace-nowrap">
-                    Pessoa jurídica
-                  </h3>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
+          {/* Botões Pessoa Física e Jurídica - agora acima do LOREM IPSUM */}
+          <motion.div 
+            className="absolute top-[2650px] left-1/2 transform -translate-x-1/2 w-full flex justify-center gap-[120px] z-20"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            {/* Botão Pessoa Física */}
+            <div className="flex flex-col items-center">
+              <div className="relative flex flex-col items-center">
+                <div className="w-40 h-40 rounded-full bg-[#ed3237] flex items-center justify-center relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+                    alt="Pessoa Física"
+                    className="w-32 h-32 object-cover rounded-2xl z-10 shadow-lg"
+                    style={{ position: 'relative' }}
+                  />
+                  <div className="absolute w-6 h-6 bg-[#ed3237] rounded-full top-4 right-0 z-0 opacity-80"></div>
+                  <div className="absolute w-3 h-3 bg-[#ed3237] rounded-full bottom-4 left-4 z-0 opacity-80"></div>
+                </div>
+                <span className="mt-3 text-lg font-julius text-black text-center">PESSOA<br/>FÍSICA</span>
+              </div>
+            </div>
+            {/* Botão Pessoa Jurídica */}
+            <div className="flex flex-col items-center">
+              <div className="relative flex flex-col items-center">
+                <div className="w-40 h-40 rounded-full bg-[#ed3237] flex items-center justify-center relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80"
+                    alt="Pessoa Jurídica"
+                    className="w-32 h-32 object-cover rounded-2xl z-10 shadow-lg"
+                    style={{ position: 'relative' }}
+                  />
+                  <div className="absolute w-6 h-6 bg-[#ed3237] rounded-full top-4 left-0 z-0 opacity-80"></div>
+                  <div className="absolute w-3 h-3 bg-[#ed3237] rounded-full bottom-4 right-4 z-0 opacity-80"></div>
+                </div>
+                <span className="mt-3 text-lg font-julius text-black text-center">PESSOA<br/>JURÍDICA</span>
+              </div>
+            </div>
+          </motion.div>
 
           <div className="absolute w-[317px] h-[233px] top-[3787px] left-[868px]">
             <div className="relative h-[233px]">
@@ -352,7 +379,8 @@ export const Home = (): JSX.Element => {
           </div>
 
           <motion.footer 
-            className="absolute w-[1436px] h-[78px] top-[4091px] left-[306px] bg-[#ed3237] rounded-[60px_60px_0px_0px]"
+            className="absolute w-[1436px] h-[78px] top-[4091px] left-[306px] bg-[#ed3237] rounded-[60px_60px_0px_0px] overflow-hidden"
+            style={{backgroundImage: 'url(/mask-group.png)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
